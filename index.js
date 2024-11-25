@@ -3,6 +3,7 @@ const app = require('express')();
 const swaggerUI = require('swagger-ui-express');
 const yamljs = require('yamljs');
 const swaggerDoc = yamljs.load('./docs/swagger.yaml');
+var express = require('express')
 
 const games = [
     { 
@@ -20,6 +21,7 @@ const games = [
 ]
 
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+app.use(express.json());
 
 app.get("/games", (req, res) => { res.send(games)})
 
@@ -33,4 +35,28 @@ app.get("/games/:id", (req, res) => {
     res.send(games[req.params.id-1])
 })
 
+app.post('/games', (req, res) => {
+    if (!req.body.GameName || 
+        !req.body.ReleaseDateEU ||
+        !req.body.ReviewScore) 
+    {
+        return res.status(400).send({error: "One or multiple parameters are missing"});
+    }
+
+    let game = {
+        GameID: games.length +1,
+        GameName: req.body.GameName,
+        ReleaseDateEU: req.body.ReleaseDateEU,
+        ReviewScore: req.body.ReviewScore
+    }
+    games.push(game);
+    res.status(201)
+        .location(`${getBaseURL(req)}/games/${games.length}`)
+        .send(game);
+})
+
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
+
+function getBaseURL(req) {
+    return req.connection && req.connection.encrypted ? "https" : "http" + `://${req.headers.host}`;
+}

@@ -25,6 +25,51 @@ paths:
                     description: Returns a list of games
             summary: get list of all games from api
             description: Returns a list of all games in the API to the requesting user.
+        post:
+            requestBody:
+                description: Data of Game that the user wants to add
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Game'
+                        examples:
+                            Example of a game:
+                                value:
+                                    GameName: 'Elder scrolls 3: Morrowind'
+                                    ReleaseDateEU: 2001.01.02
+                                    ReviewScore: '8'
+                required: true
+            tags:
+                - games
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Game that is added:
+                                    value:
+                                        GameID: 4
+                                        GameName: 'Elder scrolls 3: Morrowind'
+                                        ReleaseDateEU: 2001.01.02
+                                        ReviewScore: '8'
+                    description: 'Return code 201 to user, if creation of new Game was successful'
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        -
+                                            error: One or multiple parameters missing
+                    description: 'Return status 400 to the user, if one or multiple of parameters are missing.'
+            summary: add new game
+            description: Adds a new game into the array
     '/games/{id}':
         get:
             tags:
@@ -92,3 +137,19 @@ components:
                     type: string
             example:
                 error: Error message.
+        Game:
+            title: Root Type for Game
+            description: Example of a valid Game
+            type: object
+            properties:
+                GameName:
+                    type: string
+                ReleaseDateEU:
+                    format: date
+                    type: string
+                ReviewScore:
+                    type: string
+            example:
+                GameName: 'Elder scrolls 3: Morrowind'
+                ReleaseDateEU: 2001.01.02
+                ReviewScore: '8'
