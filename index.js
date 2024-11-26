@@ -55,6 +55,31 @@ app.post('/games', (req, res) => {
         .send(game);
 })
 
+app.put('/games/:id', (req, res) => {
+    if (req.params.id == null) {
+        return res.status(404).send({error: "Game not found"});
+    }
+    if (!req.body.GameName || 
+        !req.body.ReleaseDateEU ||
+        !req.body.ReviewScore) 
+    {
+        return res.status(400).send({error: "One or multiple parameters are missing"});
+    }
+    let game = {
+        GameID: req.body.GameID,
+        GameName: req.body.GameName,
+        ReleaseDateEU: req.body.ReleaseDateEU,
+        ReviewScore: req.body.ReviewScore
+    }
+    games.splice((req.body.GameID-1), 1, game);
+    res.status(201)
+        .location(`${getBaseURL(req)}/games/${games.length}`)
+        .send(game);
+
+})
+
+
+
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
 
 function getBaseURL(req) {

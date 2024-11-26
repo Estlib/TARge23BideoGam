@@ -126,6 +126,74 @@ paths:
             operationId: id
             summary: Get full details of a game
             description: Returns full details of a given id game
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Game'
+                        examples:
+                            Example of a game:
+                                value:
+                                    GameID: 4
+                                    GameName: 'Elder scrolls 3: Morrowind'
+                                    ReleaseDateEU: 2001.01.02
+                                    ReviewScore: '8'
+                required: true
+            tags:
+                - games
+            parameters:
+                -
+                    examples:
+                        Id of game:
+                            value: '1'
+                    name: id
+                    description: Id of Game to be updated
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Example of a modified Game:
+                                    value:
+                                        GameID: '2'
+                                        GameName: 'Elder scrolls 3: Morrowind'
+                                        ReleaseDateEU: 2001.01.02
+                                        ReviewScore: '8'
+                    description: Returns the modified Game to the user
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        -
+                                            error: One or multiple parameters are missing
+                    description: User has not added required parameters to the modified Game
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing game:
+                                    value:
+                                        -
+                                            error: Game not found
+                    description: The Game to be updated is not found in the array
+            operationId: id
+            summary: Update a Game
+            description: 'Returns updated game, when modification of a game is successful'
 components:
     schemas:
         error:
