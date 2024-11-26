@@ -10,3 +10,4 @@ How to run:
 team resources:
 - https://studio.apicur.io/apis/112831/
 - https://trello.com/c/BZGkHwHK
+![image](https://github.com/user-attachments/assets/6af3b313-4d81-4e9e-8533-6771f7dbc6c3)
