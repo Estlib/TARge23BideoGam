@@ -91,8 +91,7 @@ app.post('/games', (req, res) => {
         .send(game);
 })
 app.put('/games/:id', (req, res) => {
-    const game = getGame(req, res);
-    if (!game) {
+    if (req.params.id == null) {
         return res.status(404).send({error: "Game not found"});
     }
     if (!req.body.GameName || 
@@ -101,16 +100,15 @@ app.put('/games/:id', (req, res) => {
     {
         return res.status(400).send({error: "One or multiple parameters are missing"});
     }
-    
-        game.GameID = req.body.GameID,
-        game.GameName = req.body.GameName,
-        game.ReleaseDateEU = req.body.ReleaseDateEU,
-        game.ReviewScore = parseInt(req.body.ReviewScore)
-
+    let game = {
+        GameID: req.body.GameID,
+        GameName: req.body.GameName,
+        ReleaseDateEU: req.body.ReleaseDateEU,
+        ReviewScore: req.body.ReviewScore
+    }
     games.splice((req.body.GameID-1), 1, game);
-
     res.status(201)
-        .location(`${getBaseURL(req)}/games/${games.id}`)
+        .location(`${getBaseURL(req)}/games/${games.length}`)
         .send(game);
 
 })
@@ -130,17 +128,4 @@ app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost
 
 function getBaseURL(req) {
     return req.connection && req.connection.encrypted ? "https" : "http" + `://${req.headers.host}`;
-}
-function getGame(req, res) {
-    const idNumber = parseInt(req.params.GameID);
-    if (isNaN(idNumber)) {
-        res.status(400).send({error:"Invalid Game ID"});
-        return null;
-    }
-    const game = games.find(g => g.GameID === idNumber);
-    if (!game) {
-        res.status(404).send({error: "Game not found"});
-        return null;
-    }
-    return game;
 }
