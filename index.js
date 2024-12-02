@@ -19,12 +19,49 @@ const games = [
         GameName: "Team Fortress 2", ReleaseDateEU: "01.01.2007", ReviewScore: 10 
     } 
 ]
+const users = [
+    {
+        ID: 1,
+        Username: "xXtittyslayer666Xx",
+        Firstname: "Mihkel",
+        Lastname: "Jaakson",
+        Email: "mihkel@example.com",
+        SecureLevel: 0,
+        LevelKey: "0-0"
+    },
+    {
+        ID: 2,
+        Username: "BluePill",
+        Firstname: "Olle",
+        Lastname: "Õlle",
+        Email: "Olleolle@example.com",
+        SecureLevel: 0,
+        LevelKey: "0-1"
+    },
+    {
+        ID: 2,
+        Username: "SuperMadis",
+        Firstname: "Mattias",
+        Lastname: "Moderaator",
+        Email: "suma@example.com",
+        SecureLevel: 0,
+        LevelKey: "1-0"
+    },
+    {
+        ID: 3,
+        Username: "Admin",
+        Firstname: "Admin",
+        Lastname: "istraator",
+        Email: "Olleolle@example.com",
+        SecureLevel: 1,
+        LevelKey: "0-0"
+    },
+]
 
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use(express.json());
 
 app.get("/games", (req, res) => { res.send(games)})
-
 app.get("/games/:id", (req, res) => {
     if (typeof games[req.params.id -1] === "undefined") {
         return res.status(404).send({error: "Game not found"});
@@ -34,7 +71,6 @@ app.get("/games/:id", (req, res) => {
     }
     res.send(games[req.params.id-1])
 })
-
 app.post('/games', (req, res) => {
     if (!req.body.GameName || 
         !req.body.ReleaseDateEU ||
@@ -54,7 +90,6 @@ app.post('/games', (req, res) => {
         .location(`${getBaseURL(req)}/games/${games.length}`)
         .send(game);
 })
-
 app.put('/games/:id', (req, res) => {
     if (req.params.id == null) {
         return res.status(404).send({error: "Game not found"});
@@ -77,7 +112,6 @@ app.put('/games/:id', (req, res) => {
         .send(game);
 
 })
-
 app.delete('/games/:id', (req, res) => {
     if(typeof games[req.params.id -1] === 'undefined') {
         return res.status(404).send({error: "Game not found"});
@@ -87,6 +121,8 @@ app.delete('/games/:id', (req, res) => {
     res.status(204).send({error: "No Content"});
  
 })
+
+app.get("/users", (req, res) => { res.status(200).send(users)})
 
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
 
