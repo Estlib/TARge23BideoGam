@@ -78,7 +78,15 @@ app.put('/games/:id', (req, res) => {
 
 })
 
+app.delete('/games/:id', (req, res) => {
+    if(typeof games[req.params.id -1] === 'undefined') {
+        return res.status(404).send({error: "Game not found"});
+    }
+    games.splice(req.params.id-1, 1);
 
+    res.status(204).send({error: "No Content"});
+ 
+})
 
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
 

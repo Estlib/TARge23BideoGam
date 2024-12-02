@@ -194,6 +194,48 @@ paths:
             operationId: id
             summary: Update a Game
             description: 'Returns updated game, when modification of a game is successful'
+        delete:
+            requestBody:
+                description: id of game that is to be deleted
+                content:
+                    application/json:
+                        schema:
+                            type: integer
+                        examples:
+                            Id of Game to be deleted:
+                                value: '1'
+                required: true
+            tags:
+                - games
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                successful error:
+                                    value: |4-
+
+                                            {
+                                                "error": "no content"
+                                            }
+                    description: 'returned error, in case deletion was successful'
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Game /w+ was not found:
+                                    value: |4-
+
+                                            {
+                                                "error": "Game not found"
+                                            }
+                    description: Game with this id was not found
+            summary: Delete a specific gamed
+            description: Deletes a game from the array based on given id
 components:
     schemas:
         error:
