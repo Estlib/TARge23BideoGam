@@ -134,6 +134,38 @@ app.get("/users/:id", (req, res) => {
     }
     res.status(200).send(users[req.params.id-1])
 })
+app.post('/users', (req, res) => {
+    // ID: 1,
+    //     Username: "xXtittyslayer666Xx",
+    //     Firstname: "Mihkel",
+    //     Lastname: "Jaakson",
+    //     Email: "mihkel@example.com",
+    //     SecureLevel: 0,
+    //     LevelKey: "0-0"
+    if (!req.body.Username ||
+        !req.body.Firstname||
+        !req.body.Lastname||
+        !req.body.Email||
+        !req.body.SecureLevel||
+        !req.body.LevelKey) 
+    {
+        return res.status(400).send({error: "One or multiple parameters are missing"});
+    }
+
+    let user = {
+        ID: users.length +1,
+        Username: req.body.Username,
+        Firstname: req.body.Firstname,
+        Lastname: req.body.Lastname,
+        Email: req.body.Email,
+        SecureLevel: req.body.SecureLevel,
+        LevelKey: req.body.LevelKey,
+    }
+    users.push(user);
+    res.status(201)
+        .location(`${getBaseURL(req)}/users/${users.length}`)
+        .send(user);
+})
 
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
 

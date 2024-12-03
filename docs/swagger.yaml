@@ -285,6 +285,55 @@ paths:
                                             LevelKey: 0-0
                     description: sends all users to requester
             description: Retreives all users from the array
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                        examples:
+                            Example of a user to be added:
+                                value:
+                                    Username: sippi
+                                    Firstname: sonic
+                                    Lastname: edgehog
+                                    Email: test@gmail.com
+                                    SecureLevel: '0'
+                                    LevelKey: 0-0
+                required: true
+            tags:
+                - users
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Game'
+                            examples:
+                                Example of added User:
+                                    value:
+                                        ID: 5
+                                        Username: sippi
+                                        Firstname: sonic
+                                        Lastname: edgehog
+                                        Email: test@gmail.com
+                                        SecureLevel: '0'
+                                        LevelKey: 0-0
+                    description: |
+                        User was added
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                User is missing parameters:
+                                    value:
+                                        -
+                                            error: One or multiple parameters are missing
+                    description: 'When user is missing a parameter, respond with this'
+            summary: Add new User
+            description: New user to be added into the array
     '/users/{id}':
         get:
             tags:
