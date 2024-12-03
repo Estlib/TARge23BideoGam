@@ -441,6 +441,46 @@ paths:
                     description: User with this id was not found
             summary: successful
             description: modification of user has been successful
+        delete:
+            tags:
+                - users
+            parameters:
+                -
+                    examples:
+                        Id of user to be deleted:
+                            value: '1'
+                    name: id
+                    description: Id of user to be deleted
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Example of deleted user:
+                                    value:
+                                        -
+                                            error: No Content
+                    description: Deletion was successful
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                User /w+ was not found:
+                                    value:
+                                        -
+                                            error: user not found
+                    description: User with this id was not found
+            summary: id of game to be deleted
+            description: |
+                User deletion from array
 components:
     schemas:
         error:
