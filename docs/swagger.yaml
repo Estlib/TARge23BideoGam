@@ -285,6 +285,39 @@ paths:
                                             LevelKey: 0-0
                     description: sends all users to requester
             description: Retreives all users from the array
+    '/users/{id}':
+        get:
+            tags:
+                - users
+            parameters:
+                -
+                    examples:
+                        Example of id of User:
+                            value: '1'
+                    name: id
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                            examples:
+                                Example of a user:
+                                    value:
+                                        ID: 1
+                                        Username: xXtittyslayer666Xx
+                                        Firstname: Mihkel
+                                        Lastname: Jaakson
+                                        Email: mihkel@example.com
+                                        SecureLevel: 0
+                                        LevelKey: 0-0
+                    description: User is found by the given id
+            summary: Get one user
+            description: Retreives a single user with its details from the array
 components:
     schemas:
         error:
@@ -312,3 +345,32 @@ components:
                 GameName: 'Elder scrolls 3: Morrowind'
                 ReleaseDateEU: 2001.01.02
                 ReviewScore: '8'
+        User:
+            title: Root Type for User
+            description: Example of complete retreived user
+            type: object
+            properties:
+                ID:
+                    format: int32
+                    type: integer
+                Username:
+                    type: string
+                Firstname:
+                    type: string
+                Lastname:
+                    type: string
+                Email:
+                    type: string
+                SecureLevel:
+                    format: int32
+                    type: integer
+                LevelKey:
+                    type: string
+            example:
+                ID: 1
+                Username: xXtittyslayer666Xx
+                Firstname: Mihkel
+                Lastname: Jaakson
+                Email: mihkel@example.com
+                SecureLevel: 0
+                LevelKey: 0-0
