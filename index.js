@@ -167,6 +167,35 @@ app.post('/users', (req, res) => {
         .send(user);
 })
 
+app.put('/users/:id', (req, res) => {
+    if (req.params.id == null) {
+        return res.status(404).send({error: "User not found"});
+    }
+    if (!req.body.Username ||
+        !req.body.Firstname||
+        !req.body.Lastname||
+        !req.body.Email||
+        !req.body.SecureLevel||
+        !req.body.LevelKey) 
+    {
+        return res.status(400).send({error: "One or multiple parameters are missing"});
+    }
+    let user = {
+        ID: parseInt(req.body.id+1),
+        Username: req.body.Username,
+        Firstname: req.body.Firstname,
+        Lastname: req.body.Lastname,
+        Email: req.body.Email,
+        SecureLevel: req.body.SecureLevel,
+        LevelKey: req.body.LevelKey,
+    }
+    user.ID = parseInt(req.body.ID);
+    users.splice((req.body.ID-1), 1, user);
+    res.status(201)
+        .location(`${getBaseURL(req)}/users/${users.length}`)
+        .send(user);
+})
+
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
 
 function getBaseURL(req) {

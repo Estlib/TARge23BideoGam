@@ -367,6 +367,80 @@ paths:
                     description: User is found by the given id
             summary: Get one user
             description: Retreives a single user with its details from the array
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                        examples:
+                            Example of user:
+                                value:
+                                    -
+                                        ID: 7
+                                        Username: ''
+                                        Firstname: qae8sr
+                                        Lastname: jo3
+                                        Email: v9uirq
+                                        SecureLevel: 81
+                                        LevelKey: ''
+                required: true
+            tags:
+                - users
+            parameters:
+                -
+                    examples:
+                        Example of id of User:
+                            value: '1'
+                    name: id
+                    description: |
+                        id of user to be modified
+                    schema:
+                        type: integer
+                    in: path
+                    required: true
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                            examples:
+                                Example of a user:
+                                    value:
+                                        -
+                                            ID: 98
+                                            Username: ''
+                                            Firstname: ''
+                                            Lastname: y0c
+                                            Email: f
+                                            SecureLevel: 94
+                                            LevelKey: 12e
+                    description: User has been successfully modified
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Missing parameters:
+                                    value:
+                                        -
+                                            error: One or multiple parameters missing
+                    description: User to be modififed is missing parameters
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                User /w+ was not found:
+                                    value:
+                                        -
+                                            error: User not found
+                    description: User with this id was not found
+            summary: successful
+            description: modification of user has been successful
 components:
     schemas:
         error:
