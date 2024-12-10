@@ -17,9 +17,6 @@ module.exports = (sequelize, DataTypes) => {
             ReviewScore: {
                 type: DataTypes.DECIMAL
             }
-        },
-        {
-            timestamps: false
         }
     );
 
