@@ -4,25 +4,26 @@ const port = process.env.PORT || 8080;
 const host = 'localhost';
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 const swaggerUI = require('swagger-ui-express');
 const yamljs = require('yamljs');
 const swaggerDoc = yamljs.load('./docs/swagger.yaml');
 
-// const games = [
-//     { 
-//         GameID: 1,
-//         GameName: "Throne & Liberty", ReleaseDateEU: "01.10.2024", ReviewScore: 10 
-//     },
-//     { 
-//         GameID: 2, 
-//         GameName: "Goat Simulator", ReleaseDateEU: "01.04.2014", ReviewScore: 10 
-//     },
-//     { 
-//         GameID: 3, 
-//         GameName: "Team Fortress 2", ReleaseDateEU: "01.01.2007", ReviewScore: 10 
-//     } 
-// ]
+const games = [
+    { 
+        GameID: 1,
+        GameName: "Throne & Liberty", ReleaseDateEU: "01.10.2024", ReviewScore: 10 
+    },
+    { 
+        GameID: 2, 
+        GameName: "Goat Simulator", ReleaseDateEU: "01.04.2014", ReviewScore: 10 
+    },
+    { 
+        GameID: 3, 
+        GameName: "Team Fortress 2", ReleaseDateEU: "01.01.2007", ReviewScore: 10 
+    } 
+]
 const users = [
     {
         ID: 1,
@@ -62,71 +63,11 @@ const users = [
     },
 ]
 
-
+app.use(cors());
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use(express.json());
 
-app.get("/games", async (req, res) => { 
-    const games = await db.games.findAll();
-    res.send(games.map(({id, name}) => {return {id, name}}))
-})
-app.get("/games/:id", async (req, res) => {
-    const game = await getGame(req, res);
-    if (!game) { return};
-    return res.send(game);
-    }
-)
 
-app.post('/games', async (req, res) => {
-    if (!req.body.GameName || 
-        !req.body.ReleaseDateEU ||
-        !req.body.ReviewScore) 
-    {
-        return res.status(400).send({error: "One or multiple parameters are missing"});
-    }
-
-    let newGame = {
-        
-        GameName: req.body.GameName,
-        ReleaseDateEU: req.body.ReleaseDateEU,
-        ReviewScore: req.body.ReviewScore
-    }
-    const createdGame = await db.games.create(newGame);
-    res.status(201)
-        .location(`${getBaseURL(req)}/games/${createdGame.GameID}`)
-        .send(createdGame.GameID);
-})
-app.put('/games/:id', (req, res) => {
-    if (req.params.id == null) {
-        return res.status(404).send({error: "Game not found"});
-    }
-    if (!req.body.GameName || 
-        !req.body.ReleaseDateEU ||
-        !req.body.ReviewScore) 
-    {
-        return res.status(400).send({error: "One or multiple parameters are missing"});
-    }
-    let game = {
-        GameID: req.body.id,
-        GameName: req.body.GameName,
-        ReleaseDateEU: req.body.ReleaseDateEU,
-        ReviewScore: req.body.ReviewScore
-    }
-    games.splice((req.body.id-1), 1, game);
-    res.status(201)
-        .location(`${getBaseURL(req)}/games/${games.length}`)
-        .send(game);
-
-})
-app.delete('/games/:id', (req, res) => {
-    if(typeof games[req.params.id -1] === 'undefined') {
-        return res.status(404).send({error: "Game not found"});
-    }
-    games.splice(req.params.id-1, 1);
-
-    res.status(204).send({error: "No Content"});
- 
-})
 
 app.get("/users", (req, res) => { res.status(200).send(users)})
 
@@ -212,19 +153,4 @@ app.delete('/users/:id', (req, res) => {
 
 app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
 
-function getBaseURL(req) {
-    return req.connection && req.connection.encrypted ? "https" : "http" + `://${req.headers.host}`;
-}
-async function getGame(req, res) {
-    const idNumber = parseInt(req.params.GameID);
-    if (isNaN(idNumber)) {
-        res.status(400).send({error: "Invalid game ID"});
-        return null;
-    }
-    const game = await db.games.findByPk(idNumber);
-    if (!game) {
-        res.status(404).send({error: "Game not found"});
-        return null;
-    }
-    return game;
-}
+
