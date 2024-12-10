@@ -4,8 +4,8 @@ Games api for registering games, which users may own.
 please see below for instructions on how to run, and where its api and trello team resources are
 ------------------------------------------------------
 How to run:
- - Open terminal in backend folder
- - use nodemon . to run backend
+ - Open terminal in project general folder
+ - use command npm start to run backend and frontend simoultaneously
 ------------------------------------------------------
 team resources:
 - [https://studio.apicur.io/apis/112831/](https://studio-ws.apicur.io/sharing/9c7dcc08-7962-4c2a-bb94-bc87cc1a6fcc)
