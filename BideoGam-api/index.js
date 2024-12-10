@@ -1,29 +1,18 @@
 require('dotenv').config();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3001;
 const host = 'localhost';
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const app = express();
 
 const swaggerUI = require('swagger-ui-express');
 const yamljs = require('yamljs');
 const swaggerDoc = yamljs.load('./docs/swagger.yaml');
 
-const games = [
-    { 
-        GameID: 1,
-        GameName: "Throne & Liberty", ReleaseDateEU: "01.10.2024", ReviewScore: 10 
-    },
-    { 
-        GameID: 2, 
-        GameName: "Goat Simulator", ReleaseDateEU: "01.04.2014", ReviewScore: 10 
-    },
-    { 
-        GameID: 3, 
-        GameName: "Team Fortress 2", ReleaseDateEU: "01.01.2007", ReviewScore: 10 
-    } 
-]
+const {sync} = require('./db');
+
+
 const users = [
     {
         ID: 1,
@@ -67,7 +56,11 @@ app.use(cors());
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send(`Server running. Documentation at <a href="http://${host}:${port}/docs">/docs</a>`);
+})
 
+require("./routes/gameRoutes")(app);
 
 app.get("/users", (req, res) => { res.status(200).send(users)})
 
@@ -151,6 +144,11 @@ app.delete('/users/:id', (req, res) => {
     res.status(204).send({error: "No Content"});
 })
 
-app.listen(port, () => {console.log(`Api on saadaval aadressil: http://localhost:${port}`);});
+app.listen(port, async() => {
+    if (process.env.SYNC === 'true') {
+        await sync();
+    }
+    console.log(`Api on saadaval aadressil: http://${host}:${port}`);
+});
 
 
