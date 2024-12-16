@@ -27,9 +27,9 @@ exports.create = async (req, res) => {
         ReviewScore: req.body.ReviewScore
     }
     const createdGame = await db.games.create(newGame);
-    res.status(201)
-        .location(`${Utils.getBaseURL(req)}/games/${createdGame.GameID}`)
-        .send(createdGame.GameID);
+    res/*.status(201)*/
+        .location(`${Utils.getBaseUrl(req)}/games/${createdGame.GameID}`)
+        .sendStatus(201);
 }
 
 exports.editById = async (req,res) => {
@@ -44,7 +44,7 @@ exports.editById = async (req,res) => {
     game.ReviewScore = req.body.ReviewScore
     await game.save();
     return res.status(201)
-        .location(`${Utils.getBaseURL(req)}/games/${game.GameID}`)
+        .location(`${Utils.getBaseUrl(req)}/games/${game.GameID}`)
         .send(game);
 }
 
