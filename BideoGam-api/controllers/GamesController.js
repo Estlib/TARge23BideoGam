@@ -3,7 +3,10 @@ const Utils = require("./utils");
 
 exports.getAll = async (req, res) => { 
     const games = await db.games.findAll();
-    res.send(games.map(({id, name}) => {return {id, name}}))
+    console.log(games)
+    res
+    .send(games
+        .map(({GameID, GameName}) => {return {GameID, GameName}}))
 }
 
 exports.getById = async (req, res) => {
