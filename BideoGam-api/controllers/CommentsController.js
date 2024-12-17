@@ -40,6 +40,13 @@ exports.create = async (req, res) => {
         .sendStatus(201);
 }
 
+exports.deleteById = async (req, res) => {
+    const comment = await getComment(req, res);
+    if (!comment) { return };
+    await comment.destroy();
+    res.status(204).send({error: "No Content"});
+}
+
 const getComment = async (req, res) => {
     const idNumber = parseInt(req.params.CommentID);
     if (isNaN(idNumber)) {
