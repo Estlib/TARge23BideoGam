@@ -7,8 +7,8 @@ exports.getAll = async (req,res) => {
     res
     .send(allcomments
         .map((
-            {CommentID: CommentText}) =>
-            {return {CommentID: CommentText}}
+            {CommentID, CommentText}) =>
+            {return {CommentID, CommentText}}
         )
     )
 }

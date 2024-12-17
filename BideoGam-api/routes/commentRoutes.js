@@ -4,7 +4,7 @@ module.exports = (app) => {
     app.route("/comments")
         .get(CommentsController.getAll)
         .post(CommentsController.create)
-    app.route("/comments/:id")
+    app.route("/comments/:GameID")
         .get(CommentsController.getById)
         .delete(CommentsController.deleteById)
 }
