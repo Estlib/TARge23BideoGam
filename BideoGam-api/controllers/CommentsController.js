@@ -19,6 +19,27 @@ exports.getById = async (req, res) => {
     return res.send(comment);
 }
 
+exports.create = async (req, res) => {
+    if (!req.body.CommentText) {
+        return res.status(400).send({error: "Comment text is required"});
+    }
+    if (!req.body.GameCommentID) {
+        req.body.GameCommentID = 1
+    }
+    if (!req.body.UserID) {
+        req.body.UserID = 1
+    }
+    let newComment = {
+        CommentText: req.body.CommentText,
+        GameID: req.body.GameID,
+        UserID: req.body.UserID,
+    }
+    const createdComment = await db.comments.create(newComment);
+    res/*.status(201)*/
+        .location(`${Utils.getBaseUrl(req)}/games/${createdComment.CommentID}`)
+        .sendStatus(201);
+}
+
 const getComment = async (req, res) => {
     const idNumber = parseInt(req.params.CommentID);
     if (isNaN(idNumber)) {
