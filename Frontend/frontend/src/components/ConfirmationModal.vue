@@ -35,7 +35,7 @@ export default {
 
                 <div class="modal-footer">
 
-                    <button class="btn btn-success" @click="$emit{'confirmed'}" data-bs-dismiss="modal">
+                    <button class="btn btn-success" @click="$emit('confirmed')" data-bs-dismiss="modal">
                     YES
                     </button>
 
