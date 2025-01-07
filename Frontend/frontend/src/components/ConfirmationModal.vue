@@ -3,7 +3,8 @@ export default {
     
     props: 
     {
-        target: "" /* fix this, str->ctor */
+        target: String,
+        /* target: "" <-old version/* fix this, str->ctor  */
     },
     emits: ['confirmed']
 }
