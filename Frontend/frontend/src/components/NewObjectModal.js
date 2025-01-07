@@ -1,3 +1,5 @@
+/* deprecated file, to be removed when .vue version of modal implementation starts working*/
+
 export default {
     template: `
         <div id="newObjectModal" class="modal" tabindex="-1">

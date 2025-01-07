@@ -1,3 +1,5 @@
+/* deprecated file, to be removed when .vue version of modal implementation starts working*/
+
 export default {
     template: `
     <table class="table table-striped">

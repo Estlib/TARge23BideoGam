@@ -1,3 +1,5 @@
+/* deprecated file, to be removed when .vue version of modal implementation starts working*/
+
 export default {
     template: 
     `
@@ -45,3 +47,4 @@ export default {
     props: {target: ""},
     emits: ['confirmed']
 }
+

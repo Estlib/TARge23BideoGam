@@ -1,3 +1,5 @@
+/* deprecated file, to be removed when .vue version of modal implementation starts working*/
+
 import confirmationModal from "./ConfirmationModal.js";
 import gameForm from "./GameForm.js";
 import gameDetails from "./game/GameDetails.js";

@@ -28,10 +28,8 @@ export default {
 
                 </div>
 
-                <div class="modal-body">
-                
+                <div class="modal-body">                
                     Please confirm that this is your desired action.
-
                 </div>
 
                 <div class="modal-footer">
